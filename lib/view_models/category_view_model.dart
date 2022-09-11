@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:malika_shop/data/models/cateogory/category_item.dart';
+import 'package:malika_shop/data/models/category/category_item.dart';
 import 'package:malika_shop/utils/my_utils.dart';
 
 class CategoryViewModel {
@@ -20,10 +20,10 @@ class CategoryViewModel {
     }
   }
 
-  // Stream<List<CategoryItem>> getCategories() =>
-  //     _fireStore.collection('categories').snapshots().map(
-  //           (snapshot) => snapshot.docs
-  //               .map((doc) => CategoryItem.fromJson(doc.data()))
-  //               .toList(),
-  //         );
+  Stream<List<CategoryItem>> getCategories() =>
+      _fireStore.collection('categories').snapshots().map(
+            (snapshot) => snapshot.docs
+                .map((doc) => CategoryItem.fromJson(doc.data()))
+                .toList(),
+          );
 }

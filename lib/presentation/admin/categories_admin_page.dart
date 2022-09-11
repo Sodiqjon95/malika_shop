@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:malika_shop/data/models/cateogory/category_item.dart';
+import 'package:malika_shop/data/models/category/category_item.dart';
 import 'package:malika_shop/view_models/category_view_model.dart';
 import 'package:provider/provider.dart';
 

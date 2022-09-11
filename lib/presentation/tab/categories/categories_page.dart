@@ -1,7 +1,5 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:malika_shop/data/models/cateogory/category_item.dart';
+import 'package:malika_shop/data/models/category/category_item.dart';
 import 'package:malika_shop/utils/constants.dart';
 import 'package:malika_shop/view_models/category_view_model.dart';
 import 'package:provider/provider.dart';
@@ -32,7 +30,7 @@ class _CategoriesPageState extends State<CategoriesPage> {
         ],
       ),
       body: StreamBuilder<List<CategoryItem>>(
-        stream: getCategories(),
+        stream: context.read<CategoryViewModel>().getCategories(),
         builder: (context, snapshot) {
           if (snapshot.hasError) {
             Center(
@@ -57,11 +55,4 @@ class _CategoriesPageState extends State<CategoriesPage> {
       ),
     );
   }
-
-  Stream<List<CategoryItem>> getCategories() =>
-      FirebaseFirestore.instance.collection('categories').snapshots().map(
-            (snapshot) => snapshot.docs
-                .map((doc) => CategoryItem.fromJson(doc.data()))
-                .toList(),
-          );
 }
