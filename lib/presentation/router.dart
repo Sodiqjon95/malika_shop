@@ -29,7 +29,9 @@ class MyRouter {
       case adminOrders:
         return MaterialPageRoute(builder: (_) => OrderssAdminPage());
       case addCategory:
-        return MaterialPageRoute(builder: (_) => CategoryAddPage());
+        return MaterialPageRoute(builder: (_) => CategoryAddPage(
+          currentLength: settings.arguments as int,
+        ));
       case updateCategory:
         return MaterialPageRoute(
             builder: (_) => CategoryUpdatePage(

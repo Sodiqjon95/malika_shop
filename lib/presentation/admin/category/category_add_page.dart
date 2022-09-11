@@ -7,7 +7,10 @@ import 'package:malika_shop/view_models/category_view_model.dart';
 import 'package:provider/provider.dart';
 
 class CategoryAddPage extends StatefulWidget {
-  const CategoryAddPage({Key? key}) : super(key: key);
+  const CategoryAddPage({Key? key, required this.currentLength})
+      : super(key: key);
+
+  final int currentLength;
 
   @override
   State<CategoryAddPage> createState() => _CategoryAddPageState();
@@ -85,10 +88,11 @@ class _CategoryAddPageState extends State<CategoryAddPage> {
                           imageUrl: imageUrl,
                           createdAt: DateTime.now(),
                           categoryName: name,
-                          categoryId: 3,
+                          categoryId: widget.currentLength + 1,
                           description: desc,
                         ),
                       );
+                  Navigator.pop(context);
                 }
               },
               text: "Add category",

@@ -7,8 +7,15 @@ import 'package:malika_shop/utils/constants.dart';
 import 'package:malika_shop/view_models/category_view_model.dart';
 import 'package:provider/provider.dart';
 
-class CategoriesAdminPage extends StatelessWidget {
+class CategoriesAdminPage extends StatefulWidget {
   const CategoriesAdminPage({Key? key}) : super(key: key);
+
+  @override
+  State<CategoriesAdminPage> createState() => _CategoriesAdminPageState();
+}
+
+class _CategoriesAdminPageState extends State<CategoriesAdminPage> {
+  int currentLength = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +24,8 @@ class CategoriesAdminPage extends StatelessWidget {
         title: const Text("Category"),
         actions: [
           IconButton(
-            onPressed: () => Navigator.pushNamed(context, addCategory),
+            onPressed: () => Navigator.pushNamed(context, addCategory,
+                arguments: currentLength),
             icon: const Icon(
               Icons.add,
             ),
@@ -33,28 +41,34 @@ class CategoriesAdminPage extends StatelessWidget {
             );
           } else if (snapshot.hasData) {
             final docs = snapshot.data!;
-            return Column(
-              children: docs.map((doc) {
-                CategoryItem categoryItem = CategoryItem.fromJson(doc.data());
-                return CategoryItemAdmin(
-                  onDeleteTap: () {
-                    context.read<CategoryViewModel>().deleteCategory(
-                          context: context,
-                          docId: doc.id,
-                        );
-                  },
-                  categoryItem: categoryItem,
-                  onUpdateTap: () => Navigator.pushNamed(
-                    context,
-                    updateCategory,
-                    arguments: UpdateCategoryArgs(
-                      categoryItem: categoryItem,
-                      docId: doc.id,
-                    ),
-                  ),
-                );
-              }).toList(),
-            );
+            currentLength = docs.length;
+            return currentLength > 0
+                ? ListView(
+                    children: docs.map((doc) {
+                      CategoryItem categoryItem =
+                          CategoryItem.fromJson(doc.data());
+                      return CategoryItemAdmin(
+                        onDeleteTap: () {
+                          context.read<CategoryViewModel>().deleteCategory(
+                                context: context,
+                                docId: doc.id,
+                              );
+                        },
+                        categoryItem: categoryItem,
+                        onUpdateTap: () => Navigator.pushNamed(
+                          context,
+                          updateCategory,
+                          arguments: UpdateCategoryArgs(
+                            categoryItem: categoryItem,
+                            docId: doc.id,
+                          ),
+                        ),
+                      );
+                    }).toList(),
+                  )
+                : const Center(
+                    child: Text("List Empty"),
+                  );
           }
           return const Center(
             child: CircularProgressIndicator(),
