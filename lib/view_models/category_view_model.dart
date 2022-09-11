@@ -14,7 +14,35 @@ class CategoryViewModel {
     required CategoryItem categoryItem,
   }) async {
     try {
-      await _fireStore.collection("categories").add(categoryItem.toJson());
+      await _fireStore
+          .collection("categories")
+          .doc()
+          .set(categoryItem.toJson());
+    } on FirebaseException catch (e) {
+      MyUtils.showSnackBar(context, e.message);
+    }
+  }
+
+  Future<void> updateCategory(
+      {required BuildContext context,
+      required CategoryItem categoryItem,
+      required String docId}) async {
+    try {
+      await _fireStore
+          .collection("categories")
+          .doc(docId)
+          .update(categoryItem.toJson());
+    } on FirebaseException catch (e) {
+      MyUtils.showSnackBar(context, e.message);
+    }
+  }
+
+  Future<void> deleteCategory({
+    required BuildContext context,
+    required String docId,
+  }) async {
+    try {
+      await _fireStore.collection("categories").doc(docId).delete();
     } on FirebaseException catch (e) {
       MyUtils.showSnackBar(context, e.message);
     }
@@ -26,4 +54,10 @@ class CategoryViewModel {
                 .map((doc) => CategoryItem.fromJson(doc.data()))
                 .toList(),
           );
+
+  Stream<List<QueryDocumentSnapshot<Map<String, dynamic>>>>
+      getCategoriesForAdmin() =>
+          _fireStore.collection('categories').snapshots().map(
+                (snapshot) => snapshot.docs,
+              );
 }

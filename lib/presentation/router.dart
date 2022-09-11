@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:malika_shop/data/models/category/update_arguments.dart';
 import 'package:malika_shop/main.dart';
 import 'package:malika_shop/presentation/admin/admin_page.dart';
-import 'package:malika_shop/presentation/admin/categories_admin_page.dart';
-import 'package:malika_shop/presentation/admin/orders_admin_page.dart';
-import 'package:malika_shop/presentation/admin/products_admin_page.dart';
+import 'package:malika_shop/presentation/admin/category/categories_admin_page.dart';
+import 'package:malika_shop/presentation/admin/category/category_add_page.dart';
+import 'package:malika_shop/presentation/admin/category/category_update_page.dart';
+import 'package:malika_shop/presentation/admin/order/orders_admin_page.dart';
+import 'package:malika_shop/presentation/admin/product/products_admin_page.dart';
 import 'package:malika_shop/presentation/profile/profile_page.dart';
 import 'package:malika_shop/presentation/tab/tab_box.dart';
 import 'package:malika_shop/utils/constants.dart';
@@ -25,6 +28,12 @@ class MyRouter {
         return MaterialPageRoute(builder: (_) => ProductsAdminPage());
       case adminOrders:
         return MaterialPageRoute(builder: (_) => OrderssAdminPage());
+      case addCategory:
+        return MaterialPageRoute(builder: (_) => CategoryAddPage());
+      case updateCategory:
+        return MaterialPageRoute(
+            builder: (_) => CategoryUpdatePage(
+                updateCategoryArgs: settings.arguments as UpdateCategoryArgs));
       default:
         return MaterialPageRoute(
             builder: (_) => Scaffold(
