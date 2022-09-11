@@ -52,10 +52,6 @@ class AuthViewModel {
       await _auth.currentUser!.delete();
     } on FirebaseAuthException catch (e) {
       MyUtils.showSnackBar(context, e.message);
-
-      // Displaying the error message
-      // if an error of requires-recent-login is thrown, make sure to log
-      // in user again and then delete account.
     }
   }
 
@@ -77,7 +73,6 @@ class AuthViewModel {
     try {
       await _auth.currentUser!.updateEmail(email);
     } on FirebaseAuthException catch (e) {
-      print("CODE:${e.code}");
       MyUtils.showSnackBar(context, e.message);
     }
   }
@@ -93,7 +88,7 @@ class AuthViewModel {
     }
   }
 
-  User get user => _auth.currentUser!;
+  //User get user => _auth.currentUser!;
 
   Stream<User?> authState() async* {
     yield* FirebaseAuth.instance.authStateChanges();
