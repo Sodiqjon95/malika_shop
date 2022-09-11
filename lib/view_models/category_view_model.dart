@@ -18,6 +18,7 @@ class CategoryViewModel {
           .collection("categories")
           .doc()
           .set(categoryItem.toJson());
+      MyUtils.showSnackBar(context, "Muvaffaqiyatli qo'shildi");
     } on FirebaseException catch (e) {
       MyUtils.showSnackBar(context, e.message);
     }
@@ -32,6 +33,7 @@ class CategoryViewModel {
           .collection("categories")
           .doc(docId)
           .update(categoryItem.toJson());
+      MyUtils.showSnackBar(context, "Muvaffaqiyatli update bo'ldi");
     } on FirebaseException catch (e) {
       MyUtils.showSnackBar(context, e.message);
     }
@@ -43,6 +45,7 @@ class CategoryViewModel {
   }) async {
     try {
       await _fireStore.collection("categories").doc(docId).delete();
+      MyUtils.showSnackBar(context, "Muvaffaqiyatli o'chirildi");
     } on FirebaseException catch (e) {
       MyUtils.showSnackBar(context, e.message);
     }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:malika_shop/data/models/category/category_item.dart';
+import 'package:malika_shop/presentation/tab/categories/widgets/category_item_view.dart';
 import 'package:malika_shop/utils/constants.dart';
 import 'package:malika_shop/view_models/category_view_model.dart';
 import 'package:provider/provider.dart';
@@ -40,11 +41,7 @@ class _CategoriesPageState extends State<CategoriesPage> {
             final categories = snapshot.data!;
             return ListView(
               children: categories
-                  .map(
-                    (category) => ListTile(
-                      title: Text(category.categoryName),
-                    ),
-                  )
+                  .map((category) => CategoryItemView(categoryItem: category))
                   .toList(),
             );
           }

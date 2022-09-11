@@ -28,6 +28,7 @@ class _CategoryAddPageState extends State<CategoryAddPage> {
       ),
       body: Container(
         padding: const EdgeInsets.all(24),
+        margin: const EdgeInsets.all(12),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(12),
             border: Border.all(width: 1, color: Colors.red)),
