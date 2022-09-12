@@ -4,11 +4,11 @@ part 'order_item.g.dart';
 
 @JsonSerializable()
 class OrderItem {
-  @JsonKey(defaultValue: 0, name: "product_id")
-  int productId;
+  @JsonKey(defaultValue: "", name: "product_id")
+  String productId;
 
-  @JsonKey(defaultValue: 0, name: "order_id")
-  int orderId;
+  @JsonKey(defaultValue: "", name: "order_id")
+  String orderId;
 
   @JsonKey(defaultValue: 0, name: "count")
   int count;

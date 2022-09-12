@@ -1,20 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:malika_shop/data/models/category/category_item.dart';
+import 'package:malika_shop/data/models/products/product_item.dart';
 import 'package:malika_shop/presentation/widgets/my_custom_button.dart';
 import 'package:malika_shop/presentation/widgets/universal_text_input.dart';
 import 'package:malika_shop/utils/my_utils.dart';
 import 'package:malika_shop/view_models/category_view_model.dart';
+import 'package:malika_shop/view_models/product_view_model.dart';
 import 'package:provider/provider.dart';
 
-class CategoryAddPage extends StatefulWidget {
-  const CategoryAddPage({Key? key,})
-      : super(key: key);
+class ProductAddPage extends StatefulWidget {
+  const ProductAddPage({
+    Key? key,
+  }) : super(key: key);
 
   @override
-  State<CategoryAddPage> createState() => _CategoryAddPageState();
+  State<ProductAddPage> createState() => _ProductAddPageState();
 }
 
-class _CategoryAddPageState extends State<CategoryAddPage> {
+class _ProductAddPageState extends State<ProductAddPage> {
   final TextEditingController categoryNameController = TextEditingController();
   final TextEditingController categoryDescriptionController =
       TextEditingController();
@@ -25,7 +28,7 @@ class _CategoryAddPageState extends State<CategoryAddPage> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        title: const Text("Category Add Page"),
+        title: const Text("Product Add Page"),
       ),
       body: Container(
         padding: const EdgeInsets.all(24),
@@ -36,7 +39,7 @@ class _CategoryAddPageState extends State<CategoryAddPage> {
         child: Column(
           children: [
             UniversalTextInput(
-              hintText: "Category name",
+              hintText: "Product name",
               textController: categoryNameController,
               textInputType: TextInputType.text,
               textInputAction: TextInputAction.next,
@@ -80,20 +83,23 @@ class _CategoryAddPageState extends State<CategoryAddPage> {
                 } else if (imageUrl.isEmpty) {
                   MyUtils.getMyToast(message: "Upload category image!");
                 } else {
-                  context.read<CategoryViewModel>().addCategory(
-                        context: context,
-                        categoryItem: CategoryItem(
-                          imageUrl: imageUrl,
-                          createdAt: DateTime.now(),
-                          categoryName: name,
-                          categoryId: "",
-                          description: desc,
-                        ),
-                      );
+                  context.read<ProductViewModel>().addProduct(
+                      context: context,
+                      productItem: ProductItem(
+                        currency: "SO'M",
+                        createdAt: DateTime.now(),
+                        count: 10,
+                        categoryId: "categoryId",
+                        description: desc,
+                        productId: "",
+                        price: 1200.0,
+                        productImages: [imageUrl],
+                        productName: name,
+                      ));
                   Navigator.pop(context);
                 }
               },
-              text: "Add category",
+              text: "Add Product",
             )
           ],
         ),

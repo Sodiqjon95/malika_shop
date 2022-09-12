@@ -16,7 +16,7 @@ class CategoryViewModel {
     try {
       await _fireStore
           .collection("categories")
-          .doc()
+          .doc("my_idhfdjd")
           .set(categoryItem.toJson());
       MyUtils.showSnackBar(context, "Muvaffaqiyatli qo'shildi");
     } on FirebaseException catch (e) {
@@ -29,7 +29,12 @@ class CategoryViewModel {
     required CategoryItem categoryItem,
   }) async {
     try {
-      await _fireStore.collection("categories").add(categoryItem.toJson());
+      var newCategory =
+          await _fireStore.collection("categories").add(categoryItem.toJson());
+          await _fireStore
+          .collection("categories")
+          .doc(newCategory.id)
+          .update({"category_id": newCategory.id});
       MyUtils.getMyToast(message: "Muvaffaqiyatli qo'shildi");
     } on FirebaseException catch (e) {
       MyUtils.showSnackBar(context, e.message);
@@ -71,11 +76,11 @@ class CategoryViewModel {
                 .toList(),
           );
 
-  Stream<List<QueryDocumentSnapshot<Map<String, dynamic>>>>
-      getCategoriesForAdmin() =>
-          _fireStore.collection('categories').snapshots().map(
-                (snapshot) => snapshot.docs,
-              );
+  // Stream<List<QueryDocumentSnapshot<Map<String, dynamic>>>>
+  //     getCategoriesForAdmin() =>
+  //         _fireStore.collection('categories').snapshots().map(
+  //               (snapshot) => snapshot.docs,
+  //             );
 
   Future<CategoryItem> getCategoryByDocId({required String docId}) async {
     var data = await _fireStore.collection('categories').doc(docId).get();

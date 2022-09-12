@@ -10,9 +10,9 @@ ProductItem _$ProductItemFromJson(Map<String, dynamic> json) => ProductItem(
       currency: json['currency'] as String? ?? '',
       createdAt: DateTime.parse(json['created_at'] as String),
       count: json['count'] as int? ?? 0,
-      categoryId: json['category_id'] as int? ?? 0,
+      categoryId: json['category_id'] as String? ?? '',
       description: json['description'] as String? ?? '',
-      productId: json['product_id'] as int? ?? 0,
+      productId: json['product_id'] as String? ?? '',
       price: (json['price'] as num?)?.toDouble() ?? 0.0,
       productImages: (json['product_images'] as List<dynamic>?)
               ?.map((e) => e as String)

@@ -12,8 +12,8 @@ OrderItem _$OrderItemFromJson(Map<String, dynamic> json) => OrderItem(
       count: json['count'] as int? ?? 0,
       userId: json['user_id'] as String? ?? '',
       totalPrice: (json['total_price'] as num?)?.toDouble() ?? 0.0,
-      productId: json['product_id'] as int? ?? 0,
-      orderId: json['order_id'] as int? ?? 0,
+      productId: json['product_id'] as String? ?? '',
+      orderId: json['order_id'] as String? ?? '',
       orderStatus: json['order_status'] as String? ?? '',
     );
 

@@ -6,6 +6,7 @@ import 'package:malika_shop/presentation/admin/category/categories_admin_page.da
 import 'package:malika_shop/presentation/admin/category/category_add_page.dart';
 import 'package:malika_shop/presentation/admin/category/category_update_page.dart';
 import 'package:malika_shop/presentation/admin/order/orders_admin_page.dart';
+import 'package:malika_shop/presentation/admin/product/product_add_page.dart';
 import 'package:malika_shop/presentation/admin/product/products_admin_page.dart';
 import 'package:malika_shop/presentation/profile/profile_page.dart';
 import 'package:malika_shop/presentation/tab/tab_box.dart';
@@ -29,9 +30,9 @@ class MyRouter {
       case adminOrders:
         return MaterialPageRoute(builder: (_) => OrderssAdminPage());
       case addCategory:
-        return MaterialPageRoute(builder: (_) => CategoryAddPage(
-          currentLength: settings.arguments as int,
-        ));
+        return MaterialPageRoute(builder: (_) => CategoryAddPage());
+      case addProduct:
+        return MaterialPageRoute(builder: (_) => ProductAddPage());
       case updateCategory:
         return MaterialPageRoute(
             builder: (_) => CategoryUpdatePage(

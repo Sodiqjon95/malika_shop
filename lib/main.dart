@@ -8,6 +8,7 @@ import 'package:malika_shop/presentation/tab/tab_box.dart';
 import 'package:malika_shop/utils/constants.dart';
 import 'package:malika_shop/view_models/auth_view_model.dart';
 import 'package:malika_shop/view_models/category_view_model.dart';
+import 'package:malika_shop/view_models/product_view_model.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
@@ -21,14 +22,17 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final fireStore = FirebaseFirestore.instance;
     return MultiProvider(
       providers: [
         Provider<AuthViewModel>(
           create: (_) => AuthViewModel(auth: FirebaseAuth.instance),
         ),
         Provider<CategoryViewModel>(
-          create: (_) =>
-              CategoryViewModel(fireStore: FirebaseFirestore.instance),
+          create: (_) => CategoryViewModel(fireStore: fireStore),
+        ),
+        Provider<ProductViewModel>(
+          create: (_) => ProductViewModel(fireStore: fireStore),
         ),
         StreamProvider(
           create: (context) => context.read<AuthViewModel>().authState(),

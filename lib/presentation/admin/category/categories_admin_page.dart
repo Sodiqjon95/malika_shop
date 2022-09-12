@@ -7,15 +7,8 @@ import 'package:malika_shop/utils/constants.dart';
 import 'package:malika_shop/view_models/category_view_model.dart';
 import 'package:provider/provider.dart';
 
-class CategoriesAdminPage extends StatefulWidget {
+class CategoriesAdminPage extends StatelessWidget {
   const CategoriesAdminPage({Key? key}) : super(key: key);
-
-  @override
-  State<CategoriesAdminPage> createState() => _CategoriesAdminPageState();
-}
-
-class _CategoriesAdminPageState extends State<CategoriesAdminPage> {
-  int currentLength = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -24,44 +17,44 @@ class _CategoriesAdminPageState extends State<CategoriesAdminPage> {
         title: const Text("Category"),
         actions: [
           IconButton(
-            onPressed: () => Navigator.pushNamed(context, addCategory,
-                arguments: currentLength),
+            onPressed: () => Navigator.pushNamed(context, addCategory),
             icon: const Icon(
               Icons.add,
             ),
           )
         ],
       ),
-      body: StreamBuilder<List<QueryDocumentSnapshot<Map<String, dynamic>>>>(
-        stream: context.read<CategoryViewModel>().getCategoriesForAdmin(),
+      body: StreamBuilder<List<CategoryItem>>(
+        stream: context.read<CategoryViewModel>().getCategories(),
         builder: (context, snapshot) {
-          if (snapshot.hasError) {Center(child: Text(snapshot.error.toString()),);}
-          else if (snapshot.hasData) {final docs = snapshot.data!; currentLength = docs.length;
-            return currentLength > 0
+          if (snapshot.hasError) {
+            Center(
+              child: Text(snapshot.error.toString()),
+            );
+          } else if (snapshot.hasData) {
+            final categories = snapshot.data!;
+            return categories.isNotEmpty
                 ? ListView(
-                    children: docs.map((doc) {
-                      CategoryItem categoryItem =
-                          CategoryItem.fromJson(doc.data());
-                      return CategoryItemAdmin(
+                    children: List.generate(
+                      categories.length,
+                      (index) => CategoryItemAdmin(
                         onDeleteTap: () {
-                          // context.read<CategoryViewModel>().deleteCategory(
-                          //       context: context,
-                          //       docId: doc.id,
-                          //     );
-                          context.read<CategoryViewModel>().getCategoryByDocId(docId: doc.id);
-
+                          context.read<CategoryViewModel>().deleteCategory(
+                                context: context,
+                                docId: categories[index].categoryId,
+                              );
                         },
-                        categoryItem: categoryItem,
+                        categoryItem: categories[index],
                         onUpdateTap: () => Navigator.pushNamed(
                           context,
                           updateCategory,
                           arguments: UpdateCategoryArgs(
-                            categoryItem: categoryItem,
-                            docId: doc.id,
+                            categoryItem: categories[index],
+                            docId: categories[index].categoryId,
                           ),
                         ),
-                      );
-                    }).toList(),
+                      ),
+                    ),
                   )
                 : const Center(
                     child: Text("List Empty"),

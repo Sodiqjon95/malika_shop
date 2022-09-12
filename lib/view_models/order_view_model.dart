@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/services.dart';
 import 'package:malika_shop/data/models/card/order_item.dart';
 import 'package:malika_shop/utils/my_utils.dart';
 
@@ -55,8 +56,31 @@ class OrderViewModel {
                 .toList(),
           );
 
+  Stream<List<OrderItem>> getAllUserOrders({required String userId}) =>
+      _fireStore
+          .collection('orders')
+          .where("user_id", isEqualTo: userId)
+          .snapshots()
+          .map(
+            (snapshot) => snapshot.docs
+                .map((doc) => OrderItem.fromJson(doc.data()))
+                .toList(),
+          );
+
   Stream<List<QueryDocumentSnapshot<Map<String, dynamic>>>>
       getOrdersForAdmin() => _fireStore.collection('orders').snapshots().map(
             (snapshot) => snapshot.docs,
           );
+
+  Future<void> updateUser({required String imagePath}) {
+    CollectionReference users = _fireStore.collection('users');
+    return rootBundle
+        .load('assets/images/sample.jpg')
+        .then((bytes) => bytes.buffer.asUint8List())
+        .then((avatar) {
+          return users.doc('ABC123').update({'info.avatar': Blob(avatar)});
+        })
+        .then((value) => print("User Updated"))
+        .catchError((error) => print("Failed to update user: $error"));
+  }
 }
