@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:malika_shop/presentation/profile/widgets/profile_info_item.dart';
 import 'package:malika_shop/utils/constants.dart';
+import 'package:malika_shop/utils/my_utils.dart';
 import 'package:malika_shop/view_models/auth_view_model.dart';
 import 'package:provider/provider.dart';
 
@@ -24,20 +25,20 @@ class _ProfilePageState extends State<ProfilePage> {
         actions: [
           IconButton(
               onPressed: () {
-                Navigator.pushNamed(context, adminPage);
-                // adminAuthDialog(onTap: () {
-                //   if (password == adminPassword) {
-                //     Navigator.pop(context);
-                //     Navigator.pushNamed(context, adminPage);
-                //   } else {
-                //     MyUtils.showSnackBar(context, "Password xato!");
-                //     Navigator.pop(context);
-                //   }
-                // }, onChanged: (v) {
-                //   setState(() {
-                //     password = v;
-                //   });
-                // });
+                //Navigator.pushNamed(context, adminPage);
+                adminAuthDialog(onTap: () {
+                  if (password == adminPassword) {
+                    Navigator.pop(context);
+                    Navigator.pushNamed(context, adminPage);
+                  } else {
+                    MyUtils.showSnackBar(context, "Password xato!");
+                    Navigator.pop(context);
+                  }
+                }, onChanged: (v) {
+                  setState(() {
+                    password = v;
+                  });
+                });
               },
               icon: const Icon(Icons.settings))
         ],

@@ -9,7 +9,7 @@ class CategoryViewModel {
   CategoryViewModel({required FirebaseFirestore fireStore})
       : _fireStore = fireStore;
 
-  Future<void> addCategory({
+  Future<void> addCategoryBySet({
     required BuildContext context,
     required CategoryItem categoryItem,
   }) async {
@@ -24,10 +24,23 @@ class CategoryViewModel {
     }
   }
 
-  Future<void> updateCategory(
-      {required BuildContext context,
-      required CategoryItem categoryItem,
-      required String docId}) async {
+  Future<void> addCategory({
+    required BuildContext context,
+    required CategoryItem categoryItem,
+  }) async {
+    try {
+      await _fireStore.collection("categories").add(categoryItem.toJson());
+      MyUtils.getMyToast(message: "Muvaffaqiyatli qo'shildi");
+    } on FirebaseException catch (e) {
+      MyUtils.showSnackBar(context, e.message);
+    }
+  }
+
+  Future<void> updateCategory({
+    required BuildContext context,
+    required CategoryItem categoryItem,
+    required String docId,
+  }) async {
     try {
       await _fireStore
           .collection("categories")
@@ -63,4 +76,11 @@ class CategoryViewModel {
           _fireStore.collection('categories').snapshots().map(
                 (snapshot) => snapshot.docs,
               );
+
+  Future<CategoryItem> getCategoryByDocId({required String docId}) async {
+    var data = await _fireStore.collection('categories').doc(docId).get();
+    CategoryItem categoryItem =
+        CategoryItem.fromJson(data.data() as Map<String, dynamic>);
+    return categoryItem;
+  }
 }

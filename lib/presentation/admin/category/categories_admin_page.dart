@@ -35,13 +35,8 @@ class _CategoriesAdminPageState extends State<CategoriesAdminPage> {
       body: StreamBuilder<List<QueryDocumentSnapshot<Map<String, dynamic>>>>(
         stream: context.read<CategoryViewModel>().getCategoriesForAdmin(),
         builder: (context, snapshot) {
-          if (snapshot.hasError) {
-            Center(
-              child: Text(snapshot.error.toString()),
-            );
-          } else if (snapshot.hasData) {
-            final docs = snapshot.data!;
-            currentLength = docs.length;
+          if (snapshot.hasError) {Center(child: Text(snapshot.error.toString()),);}
+          else if (snapshot.hasData) {final docs = snapshot.data!; currentLength = docs.length;
             return currentLength > 0
                 ? ListView(
                     children: docs.map((doc) {
@@ -49,10 +44,12 @@ class _CategoriesAdminPageState extends State<CategoriesAdminPage> {
                           CategoryItem.fromJson(doc.data());
                       return CategoryItemAdmin(
                         onDeleteTap: () {
-                          context.read<CategoryViewModel>().deleteCategory(
-                                context: context,
-                                docId: doc.id,
-                              );
+                          // context.read<CategoryViewModel>().deleteCategory(
+                          //       context: context,
+                          //       docId: doc.id,
+                          //     );
+                          context.read<CategoryViewModel>().getCategoryByDocId(docId: doc.id);
+
                         },
                         categoryItem: categoryItem,
                         onUpdateTap: () => Navigator.pushNamed(
@@ -70,9 +67,7 @@ class _CategoriesAdminPageState extends State<CategoriesAdminPage> {
                     child: Text("List Empty"),
                   );
           }
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
+          return const Center(child: CircularProgressIndicator());
         },
       ),
     );

@@ -38,7 +38,7 @@ class CategoryItemView extends StatelessWidget {
         ),
         subtitle: Text(
           categoryItem.description,
-          maxLines: 2,
+          maxLines: 1,
           overflow: TextOverflow.ellipsis,
           style: const TextStyle(fontSize: 13, color: Colors.black),
         ),
